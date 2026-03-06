@@ -384,10 +384,19 @@ body {
   }
   .custom-quiz-options {
     flex-direction: column;
+    display: flex !important;
   }
-  .custom-quiz-options select {
+  .custom-quiz-options.hidden {
+    display: none !important;
+  }
+  .custom-quiz-options select,
+  #custom-quiz-source {
     min-width: 0;
     width: 100%;
+    font-size: 16px;
+    min-height: 44px;
+    -webkit-appearance: menulist;
+    appearance: menulist;
   }
   .quiz-section {
     padding: 1rem;
@@ -436,6 +445,8 @@ body {
     font-size: 1.35rem;
   }
   .landing-options select,
+  .custom-quiz-options select,
+  #custom-quiz-source,
   .custom-quiz-options input[type="number"] {
     font-size: 16px;
   }

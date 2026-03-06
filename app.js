@@ -65,11 +65,13 @@
     const answered = userAnswers[currentIndex] >= 0;
     currentNumEl.textContent = currentIndex + 1;
     totalNumEl.textContent = total;
-    questionText.textContent = q.question;
+    var qText = (q && (q.question || q.text || '')) || '(Question not available)';
+    questionText.textContent = qText;
 
     optionsContainer.innerHTML = '';
     const letters = ['A', 'B', 'C', 'D'];
-    q.options.forEach(function (opt, i) {
+    var opts = Array.isArray(q.options) ? q.options : [];
+    opts.forEach(function (opt, i) {
       const label = document.createElement('label');
       var optClass = 'option';
       if (answered) {
@@ -143,20 +145,34 @@
     updateScoreDisplay();
   }
 
+  function isValidQuestion(q) {
+    if (!q || typeof q !== 'object') return false;
+    var text = (q.question || q.text || '').trim();
+    if (!text || !Array.isArray(q.options) || q.options.length === 0) return false;
+    if (/^Question\s+\d+$/i.test(text)) return false;
+    return true;
+  }
+
+  function filterValid(questions) {
+    return (questions || []).filter(isValidQuestion);
+  }
+
   function getMergedQuestions() {
     var set1 = typeof QUIZ_QUESTIONS !== 'undefined' ? QUIZ_QUESTIONS : [];
     var set2 = typeof QUIZ_QUESTIONS_SET2 !== 'undefined' ? QUIZ_QUESTIONS_SET2 : [];
     var set3 = typeof QUIZ_QUESTIONS_SET3 !== 'undefined' ? QUIZ_QUESTIONS_SET3 : [];
     var set4 = typeof QUIZ_QUESTIONS_SET4 !== 'undefined' ? QUIZ_QUESTIONS_SET4 : [];
-    return set1.slice().concat(set2).concat(set3).concat(set4);
+    return filterValid(set1.slice().concat(set2).concat(set3).concat(set4));
   }
 
   function getSourceForCustom(sourceValue) {
-    if (sourceValue === '4' && typeof QUIZ_QUESTIONS_SET4 !== 'undefined') return QUIZ_QUESTIONS_SET4.slice();
-    if (sourceValue === '3' && typeof QUIZ_QUESTIONS_SET3 !== 'undefined') return QUIZ_QUESTIONS_SET3.slice();
-    if (sourceValue === '2' && typeof QUIZ_QUESTIONS_SET2 !== 'undefined') return QUIZ_QUESTIONS_SET2.slice();
-    if (sourceValue === '1' && typeof QUIZ_QUESTIONS !== 'undefined') return QUIZ_QUESTIONS.slice();
-    return getMergedQuestions();
+    var raw;
+    if (sourceValue === '4' && typeof QUIZ_QUESTIONS_SET4 !== 'undefined') raw = QUIZ_QUESTIONS_SET4.slice();
+    else if (sourceValue === '3' && typeof QUIZ_QUESTIONS_SET3 !== 'undefined') raw = QUIZ_QUESTIONS_SET3.slice();
+    else if (sourceValue === '2' && typeof QUIZ_QUESTIONS_SET2 !== 'undefined') raw = QUIZ_QUESTIONS_SET2.slice();
+    else if (sourceValue === '1' && typeof QUIZ_QUESTIONS !== 'undefined') raw = QUIZ_QUESTIONS.slice();
+    else raw = getMergedQuestions();
+    return filterValid(raw);
   }
 
   function updateCustomQuizMax() {
@@ -179,15 +195,18 @@
     if (opt2) opt2.disabled = true;
   }
 
+  function toggleCustomOptions() {
+    if (!setSelect || !customOptions) return;
+    if (setSelect.value === 'custom') {
+      customOptions.classList.remove('hidden');
+      updateCustomQuizMax();
+    } else {
+      customOptions.classList.add('hidden');
+    }
+  }
   if (setSelect && customOptions && customCountInput) {
-    setSelect.addEventListener('change', function () {
-      if (setSelect.value === 'custom') {
-        customOptions.classList.remove('hidden');
-        updateCustomQuizMax();
-      } else {
-        customOptions.classList.add('hidden');
-      }
-    });
+    setSelect.addEventListener('change', toggleCustomOptions);
+    setSelect.addEventListener('input', toggleCustomOptions);
   }
   if (customSourceSelect && customCountInput) {
     customSourceSelect.addEventListener('change', updateCustomQuizMax);
@@ -199,7 +218,7 @@
     if (setValue === 'custom') {
       var sourceVal = customSourceSelect ? customSourceSelect.value : 'all';
       source = getSourceForCustom(sourceVal);
-      if (source.length === 0) source = (typeof QUIZ_QUESTIONS !== 'undefined' ? QUIZ_QUESTIONS : []).slice();
+      if (source.length === 0) source = filterValid(typeof QUIZ_QUESTIONS !== 'undefined' ? QUIZ_QUESTIONS.slice() : []);
       var n = Math.max(1, Math.min(source.length, parseInt(customCountInput && customCountInput.value, 10) || 20));
       source = shuffleCheckbox && shuffleCheckbox.checked ? shuffleArray(source) : source.slice();
       currentQuestions = source.slice(0, n);
@@ -208,9 +227,11 @@
       else if (setValue === '3' && typeof QUIZ_QUESTIONS_SET3 !== 'undefined') source = QUIZ_QUESTIONS_SET3;
       else if (setValue === '2' && typeof QUIZ_QUESTIONS_SET2 !== 'undefined') source = QUIZ_QUESTIONS_SET2;
       else source = QUIZ_QUESTIONS;
-      currentQuestions = shuffleCheckbox && shuffleCheckbox.checked ? shuffleArray(source) : source.slice();
+      source = filterValid(shuffleCheckbox && shuffleCheckbox.checked ? shuffleArray(source) : source.slice());
+      currentQuestions = source;
     }
     total = currentQuestions.length;
+    if (total === 0) return;
     userAnswers = new Array(total).fill(-1);
     currentIndex = 0;
     showQuiz();
