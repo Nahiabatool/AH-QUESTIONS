@@ -4,7 +4,8 @@ Multi-set MCQ quiz (VFR-IFR Communications, Radio Navigation, Meteorology). Pick
 
 ## Run
 
-Open `index.html` in a browser (no build step).
+- **Standard:** Open `index.html` in a browser (requires all files in the same folder).
+- **Standalone:** Download `AH-QUESTIONS-standalone.html` and open it directly in any browser. One file, full functionality, works offline after fonts load. To regenerate: `node build-standalone.js`
 
 ## Push to Git (from this folder)
 

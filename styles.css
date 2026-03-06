@@ -412,9 +412,9 @@ body {
     font-size: 1rem;
   }
   .option {
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 1rem;
     font-size: 0.9rem;
-    min-height: 44px;
+    min-height: 40px;
   }
   .quiz-nav {
     flex-wrap: wrap;
@@ -422,7 +422,8 @@ body {
   .quiz-nav .btn {
     min-width: 0;
     flex: 1 1 120px;
-    min-height: 44px;
+    min-height: 36px;
+    padding: 0.5rem 1rem;
   }
   .results-section {
     padding: 1.5rem;
@@ -431,7 +432,8 @@ body {
     font-size: 2rem;
   }
   .btn {
-    min-height: 44px;
+    min-height: 36px;
+    padding: 0.5rem 1rem;
   }
 }
 @media (max-width: 480px) {
@@ -472,8 +474,12 @@ body {
   }
   .quiz-nav .btn {
     width: 100%;
+    min-height: 36px;
+    padding: 0.5rem 1rem;
   }
   .results-container .btn {
     width: 100%;
+    min-height: 36px;
+    padding: 0.5rem 1rem;
   }
 }
