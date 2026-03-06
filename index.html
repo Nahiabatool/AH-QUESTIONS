@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VFR-IFR Communications — pdf MCQs</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Landing Page -->
+  <section id="landing" class="landing">
+    <div class="landing-card">
+      <h1 class="landing-title">AH-QUESTIONS PART-2 (IR-2)</h1>
+      <p class="landing-author">(by Syed Abbas Haider Sherazi)</p>
+      <div class="landing-options">
+        <label for="question-set">Select Question Set:</label>
+        <select id="question-set">
+          <option value="1">COMM (VFR-IFR Communications, 153 questions)</option>
+          <option value="2"> FLIGHT PLAN (Flight Planning, 815 questions)</option>
+          <option value="3">R NAV (Radio Navigation, 1059 questions)</option>
+          <option value="4"> MET (Meteorology, 1289 questions)</option>
+          <option value="custom">Custom quiz (merge all & choose number)</option>
+        </select>
+        <div id="custom-quiz-options" class="custom-quiz-options hidden">
+          <label for="custom-quiz-source">Source:</label>
+          <select id="custom-quiz-source">
+            <option value="all">All sets (merged)</option>
+            <option value="1">COMM </option>
+            <option value="2">FLIGHT PLANM </option>
+            <option value="3">R NAV </option>
+            <option value="4">MET </option>
+          </select>
+          <label for="custom-quiz-count">Number of questions:</label>
+          <input type="number" id="custom-quiz-count" min="1" value="20" aria-label="Number of questions">
+          <span class="custom-quiz-hint">Drawn from selected source.</span>
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" id="shuffle-questions">
+          Shuffle Questions
+        </label>
+        <button id="start-btn" class="btn btn-primary">Start Set</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Section (hidden initially) -->
+  <section id="quiz-section" class="quiz-section hidden">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <span class="quiz-progress">Question <span id="current-num">1</span> of <span id="total-num">153</span></span>
+        <span class="quiz-score">Score: <span id="score">0</span></span>
+      </div>
+      <div class="quiz-card">
+        <h2 id="question-text" class="question-text"></h2>
+        <div id="options" class="options"></div>
+        <div class="quiz-nav">
+          <button id="back-to-home-btn" class="btn btn-secondary">Back to home</button>
+          <button id="prev-btn" class="btn btn-secondary" disabled>Previous</button>
+          <button id="next-btn" class="btn btn-primary">Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section (hidden initially) -->
+  <section id="results-section" class="results-section hidden">
+    <div class="results-container">
+      <h1>Quiz Complete</h1>
+      <p class="results-score">You scored <span id="final-score">0</span> out of <span id="final-total">153</span></p>
+      <p class="results-percent"><span id="percent">0</span>%</p>
+      <button id="restart-btn" class="btn btn-primary">Restart Quiz</button>
+    </div>
+  </section>
+
+  <script src="questions.js"></script>
+  <script src="flight_planning_set2.js"></script>
+  <script src="radio_navigation_set3.js"></script>
+  <script src="meteorology_set4.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
