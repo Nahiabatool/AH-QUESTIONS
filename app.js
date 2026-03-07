@@ -211,7 +211,8 @@
     customSourceSelect.addEventListener('change', updateCustomQuizMax);
   }
 
-  addTouchClick(startBtn, function () {
+  function handleStartQuiz(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
     var setValue = setSelect ? setSelect.value : '1';
     var source;
     if (setValue === 'custom') {
@@ -236,7 +237,8 @@
     showQuiz();
     renderQuestion();
     scoreEl.textContent = '0 / 1';
-  });
+  }
+  window.handleStartQuiz = handleStartQuiz;
 
   addTouchClick(restartBtn, function () {
     userAnswers = new Array(total).fill(-1);

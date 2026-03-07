@@ -543,7 +543,7 @@ a.btn {
           <input type="checkbox" id="shuffle-questions">
           Shuffle Questions
         </label>
-        <a href="javascript:void(0)" id="start-btn" class="btn btn-primary" role="button">Start Set</a>
+        <a href="#" id="start-btn" class="btn btn-primary" role="button" onclick="if(window.handleStartQuiz){window.handleStartQuiz(event);}return false;" ontouchend="if(window.handleStartQuiz){event.preventDefault();window.handleStartQuiz(event);}">Start Set</a>
       </div>
     </div>
   </section>
@@ -12960,7 +12960,8 @@ const QUIZ_QUESTIONS_SET4 = [
     customSourceSelect.addEventListener('change', updateCustomQuizMax);
   }
 
-  addTouchClick(startBtn, function () {
+  function handleStartQuiz(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
     var setValue = setSelect ? setSelect.value : '1';
     var source;
     if (setValue === 'custom') {
@@ -12985,7 +12986,8 @@ const QUIZ_QUESTIONS_SET4 = [
     showQuiz();
     renderQuestion();
     scoreEl.textContent = '0 / 1';
-  });
+  }
+  window.handleStartQuiz = handleStartQuiz;
 
   addTouchClick(restartBtn, function () {
     userAnswers = new Array(total).fill(-1);

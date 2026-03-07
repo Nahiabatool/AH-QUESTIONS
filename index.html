@@ -41,7 +41,7 @@
           <input type="checkbox" id="shuffle-questions">
           Shuffle Questions
         </label>
-        <a href="javascript:void(0)" id="start-btn" class="btn btn-primary" role="button">Start Set</a>
+        <a href="#" id="start-btn" class="btn btn-primary" role="button" onclick="if(window.handleStartQuiz){window.handleStartQuiz(event);}return false;" ontouchend="if(window.handleStartQuiz){event.preventDefault();window.handleStartQuiz(event);}">Start Set</a>
       </div>
     </div>
   </section>
