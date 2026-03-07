@@ -149,7 +149,6 @@
     if (!q || typeof q !== 'object') return false;
     var text = (q.question || q.text || '').trim();
     if (!text || !Array.isArray(q.options) || q.options.length === 0) return false;
-    if (/^Question\s+\d+$/i.test(text)) return false;
     return true;
   }
 
