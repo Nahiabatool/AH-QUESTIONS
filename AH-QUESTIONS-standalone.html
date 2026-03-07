@@ -186,6 +186,10 @@ body {
 }
 
 /* Buttons */
+a.btn {
+  text-decoration: none;
+  display: inline-block;
+}
 .btn {
   font-family: inherit;
   font-size: 1rem;
@@ -539,7 +543,7 @@ body {
           <input type="checkbox" id="shuffle-questions">
           Shuffle Questions
         </label>
-        <button type="button" id="start-btn" class="btn btn-primary">Start Set</button>
+        <a href="javascript:void(0)" id="start-btn" class="btn btn-primary" role="button">Start Set</a>
       </div>
     </div>
   </section>
